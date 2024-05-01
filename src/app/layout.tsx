@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { ToastProvider } from '@/components/ui/toast';
 import { Toaster } from "@/components/ui/toaster"
+import { useToast } from "@/components/ui/use-toast"
 
 import "./globals.css";
 
@@ -26,6 +27,8 @@ export default function RootLayout({
       <body>
         {/* Layout UI */}
         <main>{children}</main>
+        <Toaster />
+        <ToastProvider />
       </body>
     </html>
   )
