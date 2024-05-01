@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -62,10 +64,11 @@ const UpdateDetails = () => {
         },
         body: JSON.stringify(userData)
       });
-
+  
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
+      console.log('Updating details, should show toast next');
       toast({ title: 'Success', description: 'Details updated successfully', variant: 'default' });
     } catch (error: any) {
       console.error('Error updating details:', error);

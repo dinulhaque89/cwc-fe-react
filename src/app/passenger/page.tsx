@@ -7,6 +7,7 @@ import ViewBookings from './passengercomponents/ViewBookings';
 import ViewReviews from './passengercomponents/ViewReviews';
 import Navbar from '@/components/Navbar';
 
+
 const Page = () => {
   return (
     <div key="1" className="flex min-h-screen flex-col items-center w-full gap-4 ml-auto md:gap-2 lg:gap-4">
