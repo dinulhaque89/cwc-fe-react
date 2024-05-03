@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState, useEffect } from 'react';
 import { CardTitle, CardHeader, CardContent, CardFooter, Card } from "@/components/ui/card"
 import { TableHead, TableRow, TableHeader, TableCell, TableBody, Table } from "@/components/ui/table"
@@ -7,6 +9,9 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
 import { useToast } from '@/components/ui/use-toast';
 import ManageReviews from '@/app/passenger/passengercomponents/ManageReviews';
+import { isMoreThanOneHourAway } from './CancelBooking'; 
+import CancelBooking from './CancelBooking';
+
 
 interface Booking {
     booking_id: number;
@@ -60,6 +65,7 @@ const ViewBookings = () => {
         fetchBookings();
       }, [currentPage]);
     
+      
     
       const indexOfLastBooking = currentPage * bookingsPerPage;
       const indexOfFirstBooking = indexOfLastBooking - bookingsPerPage;
@@ -70,6 +76,10 @@ const ViewBookings = () => {
       const handlePageChange = (pageNumber: number) => {
         setCurrentPage(pageNumber);
       };
+      
+      
+  
+  
   
   
     return (
@@ -86,7 +96,8 @@ const ViewBookings = () => {
                     <TableHead>Time</TableHead>
                     <TableHead>Driver ID</TableHead>
                     <TableHead>Status</TableHead>
-                    <TableHead>Actions</TableHead>
+                <TableHead>Actions</TableHead>
+                <TableHead>Cancel</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -113,14 +124,23 @@ const ViewBookings = () => {
                       
                       <TableCell>{booking.status}</TableCell>
                       <TableCell>
-                                    {booking.status === 'completed' ? (
-                                      <ManageReviews bookingId={booking.booking_id} driverId={booking.driver_id} />
-                                      ) : (
-                                        <span>N/A</span>
-                                      )}
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                      {/* Actions column for managing reviews or other actions */}
+                      {booking.status === 'completed' ? (
+                        <ManageReviews bookingId={booking.booking_id} driverId={booking.driver_id} />
+                      ) : (
+                        <span>N/A</span>
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      {/* Cancel column specifically for cancellation */}
+                      {booking.status !== 'completed' && isMoreThanOneHourAway(booking.booking_date, booking.start_time) ? (
+                        <CancelBooking bookingId={booking.booking_id} />
+                      ) : (
+                        <span>N/A</span>
+                      )}
+                    </TableCell>
+                  </TableRow>
+                ))}
                 </TableBody>
               </Table>
               <Pagination>
