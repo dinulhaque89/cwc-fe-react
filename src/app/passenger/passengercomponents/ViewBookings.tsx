@@ -6,6 +6,7 @@ import Cookies from 'js-cookie';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
 import { useToast } from '@/components/ui/use-toast';
+import ManageReviews from '@/app/passenger/passengercomponents/ManageReviews';
 
 interface Booking {
     booking_id: number;
@@ -92,19 +93,19 @@ const ViewBookings = () => {
                   {currentBookings.map(booking => (
                     <TableRow key={booking.booking_id}>
                       <TableCell>
-                        <Dialog>
-                          <DialogTrigger asChild>
-                            <Button variant="link">{booking.booking_id}</Button>
-                          </DialogTrigger>
-                          <DialogContent>
-                            <DialogTitle>Booking Details</DialogTitle>
-                            <p>Date: {formatDate(booking.booking_date)}</p>
-                            <p>Start Location: {booking.start_location}</p>
-                            <p>End Location: {booking.end_location}</p>
-                            <p>Status: {booking.status}</p>
-                            {/* Add more details as needed */}
-                          </DialogContent>
-                        </Dialog>
+                                    <Dialog>
+                                      <DialogTrigger asChild>
+                                        <Button variant="link">{booking.booking_id}</Button>
+                                      </DialogTrigger>
+                                      <DialogContent>
+                                        <DialogTitle>Booking Details</DialogTitle>
+                                        <p>Date: {formatDate(booking.booking_date)}</p>
+                                        <p>Start Location: {booking.start_location}</p>
+                                        <p>End Location: {booking.end_location}</p>
+                                        <p>Status: {booking.status}</p>
+                                        {/* Add more details as needed */}
+                                      </DialogContent>
+                                    </Dialog>
                       </TableCell>
                       <TableCell>{formatDate(booking.booking_date)}</TableCell>
                       <TableCell>{formatTime(booking.start_time)}</TableCell>
@@ -112,10 +113,11 @@ const ViewBookings = () => {
                       
                       <TableCell>{booking.status}</TableCell>
                       <TableCell>
-                        <Button size="icon" variant="outline">
-                          <StarIcon className="w-4 h-4" />
-                          <span className="sr-only">Rate this ride</span>
-                        </Button>
+                                    {booking.status === 'completed' ? (
+                                      <ManageReviews bookingId={booking.booking_id} driverId={booking.driver_id} />
+                                      ) : (
+                                        <span>N/A</span>
+                                      )}
                       </TableCell>
                     </TableRow>
                   ))}

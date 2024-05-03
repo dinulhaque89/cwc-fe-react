@@ -6,6 +6,7 @@ import BookRide from './passengercomponents/BookRide';
 import ViewBookings from './passengercomponents/ViewBookings';
 import ViewReviews from './passengercomponents/ViewReviews';
 import Navbar from '@/components/Navbar';
+import ManageReviews from './passengercomponents/ManageReviews';
 
 
 const Page = () => {
@@ -26,6 +27,7 @@ const Page = () => {
         <section>
           <ViewReviews />
         </section>
+
       </div>
     </div>
   );
