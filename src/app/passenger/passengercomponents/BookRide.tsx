@@ -37,7 +37,7 @@ const BookRide = () => {
         const bookingData = {
           start_location: pickupLocation,
           end_location: destinationLocation,
-          start_time: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }),
+          start_time: selectedTime + ':00',
           booking_date: selectedDate ? format(selectedDate, 'yyyy-MM-dd') : undefined,
         };
 
