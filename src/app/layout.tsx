@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import { ToastProvider } from '@/components/ui/toast';
 import { Toaster } from "@/components/ui/toaster"
 import { useToast } from "@/components/ui/use-toast"
+import { ThemeProvider } from "@/components/theme-provider"
+
 
 import "./globals.css";
 
@@ -23,10 +25,16 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body>
-        {/* Layout UI */}
-        <main>{children}</main>
+        {/* <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        > */}
+          {children}
+          {/* </ThemeProvider> */}
         <Toaster />
         <ToastProvider />
       </body>

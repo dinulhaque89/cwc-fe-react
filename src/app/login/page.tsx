@@ -29,7 +29,13 @@ export default function Login() {
       const responseData = await response.json();
       if (response.ok) {
         Cookies.set('token', responseData.access_token, { expires: 7, secure: true, sameSite: 'strict' });
-        router.push('/passenger');
+        if (responseData.role == 'passenger') {
+          router.push('/passenger');
+        } else if (responseData.role == 'driver') {
+          router.push('/driver');
+        } else if (responseData.role == 'admin') {
+          router.push('/admin');
+        }
         toast({ title: 'Login Success', description: 'You are logged in.', variant: 'default' });
       } else {
         toast({ title: 'Login Failed', description: responseData.message || 'Please check your credentials and try again.', variant: 'destructive' });

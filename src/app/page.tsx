@@ -1,8 +1,20 @@
-import { Button } from "@/components/ui/button";
+"use client"
+
 import Image from "next/image";
 import Link from "next/link"
 import Navbar from "@/components/Navbar"; 
 import React from 'react';
+import { Moon, Sun } from "lucide-react"
+import { useTheme } from "next-themes"
+ 
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+
 
 
 export default function Home() {

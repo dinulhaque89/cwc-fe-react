@@ -27,7 +27,6 @@ const Page = () => {
         <section>
           <ViewReviews />
         </section>
-
       </div>
     </div>
   );

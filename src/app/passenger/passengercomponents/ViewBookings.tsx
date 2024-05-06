@@ -36,7 +36,11 @@ const ViewBookings = () => {
       }
     
       function formatTime(timeString: string): string {
-        const time = new Date(`1970-01-01T${timeString}Z`);
+        const [hours, minutes, seconds] = timeString.split(':');
+        const time = new Date();
+        time.setHours(parseInt(hours, 10));
+        time.setMinutes(parseInt(minutes, 10));
+        time.setSeconds(parseInt(seconds, 10));
         return time.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', hour12: false });
       }
   
@@ -83,7 +87,7 @@ const ViewBookings = () => {
   
   
     return (
-          <Card>
+          <Card className="col-span-1 md:col-span-3">
             <CardHeader>
               <CardTitle>Your Bookings</CardTitle>
             </CardHeader>
@@ -133,7 +137,7 @@ const ViewBookings = () => {
                     </TableCell>
                     <TableCell>
                       {/* Cancel column specifically for cancellation */}
-                      {booking.status !== 'completed' && isMoreThanOneHourAway(booking.booking_date, booking.start_time) ? (
+                      {booking.status !== 'cancelled' && 'completed' && isMoreThanOneHourAway(booking.booking_date, booking.start_time) ? (
                         <CancelBooking bookingId={booking.booking_id} />
                       ) : (
                         <span>N/A</span>
@@ -144,7 +148,7 @@ const ViewBookings = () => {
                 </TableBody>
               </Table>
               <Pagination>
-               <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginTop: '20px' }}>
+               <div className="flex justify-between items-center mt-4">
                   <Button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
                     Previous
                   </Button>

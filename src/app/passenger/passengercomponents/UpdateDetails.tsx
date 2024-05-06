@@ -114,7 +114,7 @@ const UpdateDetails = () => {
   };
 
   return (
-    <Card>
+    <Card >
       <CardHeader>
         <CardTitle >Update Details</CardTitle>
       </CardHeader>
