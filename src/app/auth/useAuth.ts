@@ -1,4 +1,3 @@
-// app/auth/useAuth.ts
 import { useState } from 'react';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
@@ -17,13 +16,10 @@ export const useAuth = () => {
 
   const login = async (email: string, password: string, role: string) => {
     setLoading(true);
-
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_FLASK_API_URL}/auth/login`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
       });
 
@@ -36,62 +32,53 @@ export const useAuth = () => {
       const token = data.access_token;
       Cookies.set('token', token);
 
-      const userDetails = await fetchUserDetails(token, role);
-      setUser(userDetails);
+      // Fetch user details based on the selected role
+      const userResponse = await fetch(`${process.env.NEXT_PUBLIC_FLASK_API_URL}/${role}/details`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-      if (role === 'passenger') {
-        router.push('/passenger');
-      } else if (role === 'driver') {
-        router.push('/driver');
-      } else if (role === 'admin') {
-        router.push('/admin');
+      if (!userResponse.ok) {
+        throw new Error('Failed to fetch user details');
       }
-    } catch (error) {
-      throw error;
-    } finally {
+
+      const userData = await userResponse.json();
+      let mappedUser: User;
+
+      if (role === 'driver') {
+        mappedUser = {
+          user_id: userData.driver_id.toString(),
+          role,
+          name: userData.name || '',
+          email: userData.email || '',
+        };
+      } else {
+        mappedUser = {
+          user_id: userData.user_id.toString(),
+          role,
+          name: userData.name || '',
+          email: userData.email || '',
+        };
+      }
+      Cookies.set('user', JSON.stringify(mappedUser));
+
+      setUser(mappedUser);
+      console.log('User logged in:', mappedUser);
       setLoading(false);
+      router.push(`/${role}`);
+    } catch (error) {
+      console.error('Login failed:', error);
+      setLoading(false);
+      throw error;
     }
   };
 
   const logout = () => {
     Cookies.remove('token');
     setUser(null);
-    router.push('/login');
+    router.push('/');
   };
 
-  const fetchUserDetails = async (token: string, role: string) => {
-    let endpoint = '';
-    if (role === 'passenger') {
-      endpoint = '/passenger/details';
-    } else if (role === 'driver') {
-      endpoint = '/driver/details';
-    } else if (role === 'admin') {
-      endpoint = '/admin/details';
-    }
-
-    const response = await fetch(`${process.env.NEXT_PUBLIC_FLASK_API_URL}${endpoint}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error('Failed to fetch user details');
-    }
-
-    const userDetails = await response.json();
-    return userDetails;
-  };
-
-  const refreshUserDetails = async () => {
-    setLoading(true);
-    const token = Cookies.get('token');
-    if (token && user) {
-      const userDetails = await fetchUserDetails(token, user.role);
-      setUser(userDetails);
-    }
-    setLoading(false);
-  };
-
-  return { user, loading, login, logout, refreshUserDetails };
+  return { user, loading, login, logout };
 };

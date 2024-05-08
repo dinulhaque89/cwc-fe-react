@@ -9,9 +9,16 @@ import BookRide from './passengercomponents/BookRide';
 import ViewBookings from './passengercomponents/ViewBookings';
 import ViewReviews from './passengercomponents/ViewReviews';
 import UpdateDetails from './passengercomponents/UpdateDetails';
+import { ProtectedRoute } from '@/components/ProtectedRoute';
+import Navbar from '@/components/Navbar';
+import Cookies from 'js-cookie';
+
 
 export default function PassengerPage() {
   const { user, loading, refreshUserDetails } = useAuth();
+  const userCookie = Cookies.get('user');
+
+  
 
   if (loading) {
     return (
@@ -28,20 +35,75 @@ export default function PassengerPage() {
     );
   }
 
+  const handleUpdate = () => {
+    refreshUserDetails();
+  };
+
+
   return (
-    <div>
-      <Card>
-        <CardHeader>
-          <CardTitle>{user ? `Welcome, ${user.name}!` : 'Passenger Dashboard'}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <UpdateDetails onUpdate={refreshUserDetails} />
-          <BookRide />
-          <ViewBookings />
-          <ViewReviews />
-        </CardContent>
-      </Card>
-      <Button onClick={refreshUserDetails}>Refresh Data</Button>
-    </div>
+      <div className="bg-gray-100 min-h-screen">
+        <Navbar />
+        <div className="container mx-auto py-8">
+          {loading ? (
+            <Skeleton className="h-8 w-48 mb-8" />
+          ) : (
+            <h1 className="text-3xl font-bold mb-8">Welcome, {user?.name}!</h1>
+          )}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <Card>
+              <CardHeader>
+                <CardTitle>Update Details</CardTitle>
+              </CardHeader>
+              <CardContent>
+                {loading ? (
+                  <Skeleton className="h-64" />
+                ) : (
+                  <UpdateDetails onUpdate={handleUpdate} />
+                )}
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle>Book a Ride</CardTitle>
+              </CardHeader>
+              <CardContent>
+                {loading ? (
+                  <Skeleton className="h-64" />
+                ) : (
+                  <BookRide />
+                )}
+              </CardContent>
+            </Card>
+          </div>
+          <div className="mt-8">
+            <Card>
+              <CardHeader>
+                <CardTitle>Your Bookings</CardTitle>
+              </CardHeader>
+              <CardContent>
+                {loading ? (
+                  <Skeleton className="h-96" />
+                ) : (
+                  <ViewBookings />
+                )}
+              </CardContent>
+            </Card>
+          </div>
+          <div className="mt-8">
+            <Card>
+              <CardHeader>
+                <CardTitle>Reviews</CardTitle>
+              </CardHeader>
+              <CardContent>
+                {loading ? (
+                  <Skeleton className="h-64" />
+                ) : (
+                  <ViewReviews />
+                )}
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </div>
   );
 }

@@ -1,4 +1,3 @@
-// app/login/page.tsx
 'use client';
 
 import { useState } from 'react';
@@ -9,7 +8,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Skeleton } from '@/components/ui/skeleton';
 
 export default function LoginPage() {
   const { login, loading } = useAuth();
@@ -67,14 +65,7 @@ export default function LoginPage() {
               <Input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
             </div>
             <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? (
-                <div className="flex items-center justify-center space-x-2">
-                  <Skeleton className="h-4 w-4 rounded-full" />
-                  <span>Loading...</span>
-                </div>
-              ) : (
-                'Login'
-              )}
+              {loading ? 'Loading...' : 'Login'}
             </Button>
           </form>
         </CardContent>
