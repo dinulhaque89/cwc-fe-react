@@ -3,75 +3,98 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { BellIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
 import { useToast } from '@/components/ui/use-toast';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { LogOut } from 'lucide-react';
 
 const Navbar = () => {
   const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    setIsLoggedIn(!!Cookies.get('token'));
+    const token = Cookies.get('token');
+    setIsLoggedIn(!!token);
+
+    if (token) {
+      // Fetch user data and update the state
+      fetchUserData(token);
+    }
   }, []);
 
   const { toast } = useToast();
 
   const handleLogout = () => {
     Cookies.remove('token');
+    setUser(null);
     router.push('/');
   };
 
-  useEffect(() => {
-    if (!isLoggedIn && !Cookies.get('token')) {
+  const fetchUserData = async (token: string) => {
+    try {
+      // Make an API call to fetch user data based on the token
+      const response = await fetch('/api/user', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        const userData = await response.json();
+        setUser(userData);
+      } else {
+        toast({
+          title: 'Error',
+          description: 'Failed to fetch user data.',
+          variant: 'destructive',
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching user data:', error);
       toast({
-        title: 'Unauthorized',
-        description: 'Please log in to access your account.',
-        variant: 'destructive'
+        title: 'Error',
+        description: 'An error occurred while fetching user data.',
+        variant: 'destructive',
       });
     }
-  }, [isLoggedIn, toast]);
-
-
+  };
 
   return (
-    <header className="flex h-16 shrink-0 items-center px-4 md:px-6 justify-between">
-      <nav className="flex flex-col gap-6 md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
-        <Link className="flex items-center gap-2 text-lg font-semibold md:text-base" href="/">
-          <img src="/logo.png" alt="Canary Wharf Chauffeur Logo" className="w-6 h-6" />
-          <span className="sr-only">Canary Wharf Chauffeur</span>
+    <header className="flex items-center justify-between px-4 py-2 bg-blue-500 text-white">
+      <div className="flex items-center space-x-4">
+        <Link href="/">
+          <img src="/logo.png" alt="Canary Wharf Chauffeur Logo" className="h-10" />
         </Link>
-        <Link className="font-bold" href="#">
-          Book a Ride
-        </Link>
-        <Link className="text-gray-500 dark:text-gray-400" href="#">
-          View Bookings
-        </Link>
-        <Link className="text-gray-500 dark:text-gray-400" href="#">
-          Reviews
-        </Link>
-      </nav>
-      <div className="flex items-center gap-4">
+        <nav className="hidden md:flex space-x-4">
+          <Link href="/about">About Us</Link>
+          <Link href="/contact">Contact Us</Link>
+        </nav>
+      </div>
+      <div className="flex items-center space-x-4">
         {isLoggedIn ? (
           <>
-            <Button variant="ghost" onClick={() => router.push('/passenger')}>
-              My Account
-            </Button>
+            <Avatar>
+              <AvatarImage src={user?.avatar} alt={user?.name} />
+              <AvatarFallback>{user?.name?.charAt(0)}</AvatarFallback>
+            </Avatar>
             <Button variant="ghost" onClick={handleLogout}>
+              <LogOut className="mr-2 h-4 w-4" />
               Logout
             </Button>
           </>
         ) : (
-          <Link href="/login">
-            <Button variant="outline">Login</Button>
-          </Link>
+          <>
+            <Link href="/login">
+              <Button variant="ghost">Login</Button>
+            </Link>
+            <Link href="/signup">
+              <Button variant="outline">Sign Up</Button>
+            </Link>
+          </>
         )}
       </div>
-    
-   
-
-
     </header>
   );
 };

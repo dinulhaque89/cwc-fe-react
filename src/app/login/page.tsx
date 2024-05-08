@@ -1,70 +1,81 @@
-"use client";
+// app/login/page.tsx
+'use client';
 
-import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { useAuth } from '../auth/useAuth';
 import { useToast } from '@/components/ui/use-toast';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Card } from "@/components/ui/card"
-import { CardContent } from "@/components/ui/card"
-import Cookies from 'js-cookie';
+import { Button } from '@/components/ui/button';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Skeleton } from '@/components/ui/skeleton';
 
-export default function Login() {
-  const { register, handleSubmit, formState: { errors } } = useForm();
+export default function LoginPage() {
+  const { login, loading } = useAuth();
   const { toast } = useToast();
-  const router = useRouter();
+  const [role, setRole] = useState('passenger');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  const onSubmit = async (data: any) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_FLASK_API_URL}/auth/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-
-      const responseData = await response.json();
-      if (response.ok) {
-        Cookies.set('token', responseData.access_token, { expires: 7, secure: true, sameSite: 'strict' });
-        if (responseData.role == 'passenger') {
-          router.push('/passenger');
-        } else if (responseData.role == 'driver') {
-          router.push('/driver');
-        } else if (responseData.role == 'admin') {
-          router.push('/admin');
-        }
-        toast({ title: 'Login Success', description: 'You are logged in.', variant: 'default' });
-      } else {
-        toast({ title: 'Login Failed', description: responseData.message || 'Please check your credentials and try again.', variant: 'destructive' });
-      }
+      await login(email, password, role);
     } catch (error) {
-      console.error('Login error:', error);
-      toast({ title: 'Error', description: (error as Error).message || 'An error occurred during login', variant: 'destructive' });
+      toast({
+        title: 'Login Failed',
+        description: (error as Error).message || 'Please check your credentials and try again.',
+        variant: 'destructive',
+      });
     }
   };
 
   return (
-    <div className="login-container flex justify-center items-center min-h-screen bg-gray-100">
-      <Card className="w-full max-w-md p-4 bg-white shadow-md">
+    <div className="flex justify-center items-center min-h-screen">
+      <Card className="w-full max-w-md">
+        <CardHeader>
+          <CardTitle>Login</CardTitle>
+          <CardDescription>Select your role and enter your credentials to log in.</CardDescription>
+        </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit(onSubmit)} className="login-form">
-            <h1 className="text-center text-xl font-bold mb-6">Login to Your Account</h1>
-            <div className="mb-4">
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="grid gap-2">
+              <Label htmlFor="role">Role</Label>
+              <RadioGroup value={role} onValueChange={setRole}>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="admin" id="admin" />
+                  <Label htmlFor="admin">Admin</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="passenger" id="passenger" />
+                  <Label htmlFor="passenger">Passenger</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="driver" id="driver" />
+                  <Label htmlFor="driver">Driver</Label>
+                </div>
+              </RadioGroup>
+            </div>
+            <div className="grid gap-2">
               <Label htmlFor="email">Email</Label>
-              <Input id="email" type="email" {...register('email', { required: true })} />
-              {errors.email && <p className="text-red-500">Email is required.</p>}
+              <Input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
             </div>
-
-            <div className="mb-6">
+            <div className="grid gap-2">
               <Label htmlFor="password">Password</Label>
-              <Input id="password" type="password" {...register('password', { required: true })} />
-              {errors.password && <p className="text-red-500">Password is required.</p>}
+              <Input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
             </div>
-
-            <Button type="submit" className="w-full">Login</Button>
+            <Button type="submit" className="w-full" disabled={loading}>
+              {loading ? (
+                <div className="flex items-center justify-center space-x-2">
+                  <Skeleton className="h-4 w-4 rounded-full" />
+                  <span>Loading...</span>
+                </div>
+              ) : (
+                'Login'
+              )}
+            </Button>
           </form>
         </CardContent>
       </Card>

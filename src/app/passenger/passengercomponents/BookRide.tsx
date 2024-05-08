@@ -15,6 +15,7 @@ import { format } from 'date-fns';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
 import { TooltipProvider } from '@radix-ui/react-tooltip';
+import { ProtectedRoute } from '@/components/ProtectedRoute';
 
 const googleMapsLibraries: ("places" | "drawing" | "geometry" | "localContext" | "visualization")[] = ['places'];
 
@@ -113,6 +114,7 @@ const BookRide = () => {
 
 
   return (
+    
     <TooltipProvider>
       <Card>
         <CardHeader>
@@ -268,7 +270,8 @@ const BookRide = () => {
           </Button>
         </CardFooter>
       </Card>
-    </TooltipProvider>
+      </TooltipProvider>
+      
   );
 };
 

@@ -1,35 +1,47 @@
+// app/passenger/page.tsx
 'use client';
 
-import React from 'react';
-import UpdateDetails from './passengercomponents/UpdateDetails';
+import { useAuth } from '../auth/useAuth';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Button } from '@/components/ui/button';
 import BookRide from './passengercomponents/BookRide';
 import ViewBookings from './passengercomponents/ViewBookings';
 import ViewReviews from './passengercomponents/ViewReviews';
-import Navbar from '@/components/Navbar';
-import ManageReviews from './passengercomponents/ManageReviews';
+import UpdateDetails from './passengercomponents/UpdateDetails';
 
+export default function PassengerPage() {
+  const { user, loading, refreshUserDetails } = useAuth();
 
-const Page = () => {
+  if (loading) {
+    return (
+      <Card>
+        <CardHeader>
+          <Skeleton className="h-6 w-1/3" />
+        </CardHeader>
+        <CardContent>
+          <Skeleton className="h-4 w-full" />
+          <Skeleton className="h-4 w-4/5 mt-2" />
+          <Skeleton className="h-4 w-3/5 mt-2" />
+        </CardContent>
+      </Card>
+    );
+  }
+
   return (
-    <div key="1" className="flex min-h-screen flex-col items-center w-full gap-4 ml-auto md:gap-2 lg:gap-4">
-      <div className="flex flex-col w-full gap-4 ml-auto md:gap-2 lg:gap-4">
-        
-        <section>
-          <Navbar />
-          <UpdateDetails />
-        </section>
-        <section>
+    <div>
+      <Card>
+        <CardHeader>
+          <CardTitle>{user ? `Welcome, ${user.name}!` : 'Passenger Dashboard'}</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <UpdateDetails onUpdate={refreshUserDetails} />
           <BookRide />
-        </section>
-        <section>
           <ViewBookings />
-        </section>
-        <section>
           <ViewReviews />
-        </section>
-      </div>
+        </CardContent>
+      </Card>
+      <Button onClick={refreshUserDetails}>Refresh Data</Button>
     </div>
   );
-};
-
-export default Page;
+}

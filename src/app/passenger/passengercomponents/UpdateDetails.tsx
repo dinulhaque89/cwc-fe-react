@@ -17,7 +17,11 @@ interface UserData {
   avatar_url: string;
 }
 
-const UpdateDetails = () => {
+interface UpdateDetailsProps {
+  onUpdate: () => void;
+}
+
+export default function UpdateDetails({ onUpdate }: UpdateDetailsProps) {
   const [userData, setUserData] = useState<UserData>({ name: '', email: '', mobile_phone: '', avatar_url: '' });
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const { toast } = useToast();
@@ -70,6 +74,7 @@ const UpdateDetails = () => {
       }
       console.log('Updating details, should show toast next');
       toast({ title: 'Success', description: 'Details updated successfully', variant: 'default' });
+      onUpdate(); // Call the onUpdate prop to refresh user details
     } catch (error: any) {
       console.error('Error updating details:', error);
       toast({ title: 'Error', description: error.message || 'Error updating details', variant: 'destructive' });
@@ -106,6 +111,7 @@ const UpdateDetails = () => {
         setUserData({ ...userData, avatar_url: data.avatar_url });
         setSelectedImage(null);
         toast({ title: 'Success', description: 'Avatar updated successfully', variant: 'default' });
+        onUpdate(); // Call the onUpdate prop to refresh user details
       } catch (error: any) {
         console.error('Error updating avatar:', error);
         toast({ title: 'Error', description: error.message || 'Error updating avatar', variant: 'destructive' });
@@ -152,4 +158,3 @@ const UpdateDetails = () => {
   );
 };
 
-export default UpdateDetails;

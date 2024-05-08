@@ -4,6 +4,9 @@ import { ToastProvider } from '@/components/ui/toast';
 import { Toaster } from "@/components/ui/toaster"
 import { useToast } from "@/components/ui/use-toast"
 import { ThemeProvider } from "@/components/theme-provider"
+import { AuthProvider } from './auth/AuthProvider';
+import { ProtectedRoute } from "@/components/ProtectedRoute";
+
 
 
 import "./globals.css";
@@ -33,7 +36,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         > */}
-          {children}
+          <AuthProvider>
+            {children}
+          </AuthProvider>
           {/* </ThemeProvider> */}
         <Toaster />
         <ToastProvider />
