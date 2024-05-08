@@ -15,7 +15,7 @@ import Cookies from 'js-cookie';
 
 
 export default function PassengerPage() {
-  const { user, loading, refreshUserDetails } = useAuth();
+  const { user, loading} = useAuth();
   const userCookie = Cookies.get('user');
 
   
