@@ -89,7 +89,7 @@ const ViewBookings = () => {
     return (
           <Card className="col-span-1 md:col-span-3">
             <CardHeader>
-              <CardTitle>Your Bookings</CardTitle>
+              {/* <CardTitle>Your Bookings</CardTitle> */}
             </CardHeader>
             <CardContent>
               <Table>
@@ -148,7 +148,7 @@ const ViewBookings = () => {
                 </TableBody>
               </Table>
               <Pagination>
-               <div className="flex justify-between items-center mt-4">
+               <div className="flex justify-between items-center mt-6 gap-2">
                   <Button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
                     Previous
                   </Button>

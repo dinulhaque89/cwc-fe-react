@@ -122,17 +122,17 @@ export default function UpdateDetails({ onUpdate }: UpdateDetailsProps) {
   return (
     <Card >
       <CardHeader>
-        <CardTitle >Update Details</CardTitle>
+        {/* <CardTitle >Update Details</CardTitle> */}
       </CardHeader>
       <CardContent className="flex flex-col items-center">
-        <div>
+      <div className="flex flex-col items-center space-y-4">
           <Avatar className="w-48 h-48 border">
             <AvatarImage src={userData.avatar_url || "/placeholder-user.jpg"} alt="@username" />
             <AvatarFallback>{userData.name.charAt(0)}</AvatarFallback>
           </Avatar>
           <div className="mt-4 flex justify-end gap-4">
             <Input accept="image/*" id="image-upload" type="file" onChange={handleImageUpload} />
-            <Button onClick={handleImageUpdate} className="mt-2">Update Avatar</Button>
+            <Button onClick={handleImageUpdate} className="text-sm">Update Avatar</Button>
           </div>
         </div>
         <div className="grid gap-4 mt-4 w-full max-w-lg">
@@ -151,7 +151,7 @@ export default function UpdateDetails({ onUpdate }: UpdateDetailsProps) {
         </div>
       </CardContent>
       <CardFooter className="flex justify-center gap-4">
-        <Button onClick={handleUpdateDetails}>Update Details</Button>
+        <Button className="w-full" onClick={handleUpdateDetails}>Update Details</Button>
         <ChangePassword />
       </CardFooter>
     </Card>

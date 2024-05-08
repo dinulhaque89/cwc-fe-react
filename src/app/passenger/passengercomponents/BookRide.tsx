@@ -118,7 +118,7 @@ const BookRide = () => {
     <TooltipProvider>
       <Card>
         <CardHeader>
-          <CardTitle>Book a Ride</CardTitle>
+          {/* <CardTitle>Book a Ride</CardTitle> */}
           <CardDescription>Enter your pickup and destination locations to book a ride.</CardDescription>
         </CardHeader>
         <CardContent>

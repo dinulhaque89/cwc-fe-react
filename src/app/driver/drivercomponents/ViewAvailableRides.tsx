@@ -56,7 +56,7 @@ const ViewAvailableRides: React.FC = () => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Available Rides</CardTitle>
+        {/* <CardTitle>Available Rides</CardTitle> */}
       </CardHeader>
       <CardContent>
         <Table>

@@ -56,7 +56,7 @@ const UpdateStatus: React.FC<UpdateStatusProps> = ({ bookingId, onUpdate }) => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Update Status</CardTitle>
+        {/* <CardTitle>Update Status</CardTitle> */}
       </CardHeader>
       <CardContent>
         <Select onValueChange={(value) => setSelectedStatus(value)}>

@@ -47,7 +47,7 @@ const ViewReviews = () => {
 return (
         <Card>
             <CardHeader>
-                <CardTitle>Reviews</CardTitle>
+                {/* <CardTitle>Reviews</CardTitle> */}
             </CardHeader>
             <CardContent>
             {reviews.map((review, index) => (

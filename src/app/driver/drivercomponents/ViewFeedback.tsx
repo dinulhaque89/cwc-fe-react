@@ -53,7 +53,7 @@ const ViewFeedback: React.FC = () => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Feedback</CardTitle>
+        {/* <CardTitle>Feedback</CardTitle> */}
       </CardHeader>
       <CardContent>
         <Table>

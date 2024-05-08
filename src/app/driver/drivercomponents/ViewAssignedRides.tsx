@@ -64,7 +64,7 @@ interface ViewAssignedRidesProps {
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Assigned Rides</CardTitle>
+          {/* <CardTitle>Assigned Rides</CardTitle> */}
         </CardHeader>
         <CardContent>
           <Table>

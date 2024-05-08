@@ -6,6 +6,8 @@ import ViewAvailableRides from './drivercomponents/ViewAvailableRides';
 import UpdateStatus from './drivercomponents/UpdateStatus';
 import ViewFeedback from './drivercomponents/ViewFeedback';
 import Navbar from '@/components/Navbar';
+import { Card, CardHeader, CardContent, CardTitle } from '@/components/ui/card';
+
 
 const DriverPage = () => {
   const [selectedBookingId, setSelectedBookingId] = useState<number | null>(null);
@@ -21,31 +23,48 @@ const DriverPage = () => {
 
 
   return (
-    /* <ProtectedRoute requiredRole="driver"> */
     <div className="bg-gray-100 min-h-screen">
-      <div className="max-w-7xl mx-auto p-6">
       <Navbar />
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          
-          <section>
-            
-            <ViewAssignedRides onBookingSelect={handleBookingSelect} />
-          </section>
-          <section>
-            <ViewAvailableRides />
-          </section>
+      <div className="container mx-auto py-8">
+        <h1 className="text-3xl font-bold mb-8">Driver Dashboard</h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <Card>
+            <CardHeader>
+              <CardTitle>Assigned Rides</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ViewAssignedRides onBookingSelect={handleBookingSelect} />
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle>Available Rides</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ViewAvailableRides />
+            </CardContent>
+          </Card>
           {selectedBookingId && (
-            <section>
-              <UpdateStatus bookingId={selectedBookingId} onUpdate={handleStatusUpdate} />
-            </section>
+            <Card>
+              <CardHeader>
+                <CardTitle>Update Status</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <UpdateStatus bookingId={selectedBookingId} onUpdate={handleStatusUpdate} />
+              </CardContent>
+            </Card>
           )}
-          <section>
-            <ViewFeedback />
-          </section>
+          <Card>
+            <CardHeader>
+              <CardTitle>Feedback</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ViewFeedback />
+            </CardContent>
+          </Card>
         </div>
       </div>
-      </div>
-      // </ProtectedRoute>
+    </div>
   );
 };
 

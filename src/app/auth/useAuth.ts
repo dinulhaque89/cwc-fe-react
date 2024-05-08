@@ -64,7 +64,7 @@ export const useAuth = () => {
       Cookies.set('user', JSON.stringify(mappedUser));
 
       setUser(mappedUser);
-      console.log('User logged in:', mappedUser);
+      // console.log('User logged in:', mappedUser);
       setLoading(false);
       router.push(`/${role}`);
     } catch (error) {

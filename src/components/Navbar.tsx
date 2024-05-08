@@ -63,24 +63,26 @@ const Navbar = () => {
         <nav className="hidden md:flex space-x-4">
           <Link href="/about">About Us</Link>
           <Link href="/contact">Contact Us</Link>
-          {user && (
-            <Button onClick={navigateToDashboard} variant="ghost">My Dashboard</Button>
-          )}
         </nav>
       </div>
-      <div className="flex items-center space-x-4">
+      <div className="flex items-center justify-end space-x-4">
         {user ? (
-          <Button variant="ghost" onClick={handleLogout}>
-            <LogOut className="mr-2 h-4 w-4" />
-            Logout
-          </Button>
+          <>
+            <Button onClick={navigateToDashboard} className="bg-transparent hover:bg-blue-700 text-white font-semibold py-2 px-4 border border-white hover:border-transparent rounded">
+              My Dashboard
+            </Button>
+            <Button onClick={handleLogout} className="bg-transparent hover:bg-blue-700 text-white font-semibold py-2 px-4 border border-white hover:border-transparent rounded">
+              <LogOut className="mr-2 h-4 w-4" />
+              Logout
+            </Button>
+          </>
         ) : (
           <>
             <Link href="/login">
-              <Button variant="ghost">Login</Button>
+              <Button className="bg-transparent hover:bg-blue-700 text-white font-semibold py-2 px-4 border border-white hover:border-transparent rounded">Login</Button>
             </Link>
             <Link href="/signup">
-              <Button variant="outline">Sign Up</Button>
+              <Button className="bg-blue-700 hover:bg-blue-800 text-white font-semibold py-2 px-4 border border-blue-700 hover:border-transparent rounded">Sign Up</Button>
             </Link>
           </>
         )}
