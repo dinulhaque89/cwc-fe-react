@@ -31,3 +31,4 @@ dist/
 
 # Ignore all text files 
 *.txt
+node_modules
