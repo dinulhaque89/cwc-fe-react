@@ -90,8 +90,8 @@ export default function Home() {
           </section>
           <section className="bg-gray-100">
             <div className="max-w-7xl mx-auto px-4 py-16">
-              <h2 className="text-3xl font-bold mb-8">Our services</h2>
-              <Button>View All Services</Button>
+              {/* <h2 className="text-3xl font-bold mb-8">Our services</h2>
+              <Button>View All Services</Button> */}
             </div>
           </section>
         </main>
