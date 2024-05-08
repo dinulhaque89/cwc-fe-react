@@ -9,7 +9,6 @@ import BookRide from './passengercomponents/BookRide';
 import ViewBookings from './passengercomponents/ViewBookings';
 import ViewReviews from './passengercomponents/ViewReviews';
 import UpdateDetails from './passengercomponents/UpdateDetails';
-import { ProtectedRoute } from '@/components/ProtectedRoute';
 import Navbar from '@/components/Navbar';
 import Cookies from 'js-cookie';
 
@@ -36,7 +35,6 @@ export default function PassengerPage() {
   }
 
   const handleUpdate = () => {
-    refreshUserDetails();
   };
 
 

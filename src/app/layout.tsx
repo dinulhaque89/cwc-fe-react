@@ -5,7 +5,6 @@ import { Toaster } from "@/components/ui/toaster"
 import { useToast } from "@/components/ui/use-toast"
 import { ThemeProvider } from "@/components/theme-provider"
 import { AuthProvider } from './auth/AuthProvider';
-import { ProtectedRoute } from "@/components/ProtectedRoute";
 
 
 

@@ -15,10 +15,8 @@ import { format } from 'date-fns';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
 import { TooltipProvider } from '@radix-ui/react-tooltip';
-import { ProtectedRoute } from '@/components/ProtectedRoute';
 
-const googleMapsLibraries: ("places" | "drawing" | "geometry" | "localContext" | "visualization")[] = ['places'];
-
+const googleMapsLibraries: ("places" | "drawing" | "geometry" | "visualization")[] = ['places', 'drawing', 'geometry', 'visualization'];
 
 const BookRide = () => {
   const { toast } = useToast();
@@ -124,7 +122,7 @@ const BookRide = () => {
         <CardContent>
           <LoadScript
             googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ''}
-            libraries={googleMapsLibraries}
+            libraries={googleMapsLibraries as any}
             onLoad={() => setMapsApiLoaded(true)}
           >
             {mapsApiLoaded && (
