@@ -66,7 +66,7 @@ const UpdateStatus: React.FC<UpdateStatusProps> = ({ bookingId, onUpdate }) => {
           <SelectContent>
             <SelectItem value="on route to passenger pickup location">On route to passenger pickup location</SelectItem>
             <SelectItem value="picked up passenger">Picked up passenger</SelectItem>
-            <SelectItem value="on route to passengers destination location">On route to passenger's destination location</SelectItem>
+            <SelectItem value="on route to passengers destination location">On route to passengers destination location</SelectItem>
             <SelectItem value="completed">Completed</SelectItem>
           </SelectContent>
         </Select>
